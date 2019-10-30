@@ -13,23 +13,24 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-#ENV CARTODB_VERSION=v4.11.152
-#ENV CARTODB_VERSION=v4.12.9
-#ENV CARTODB_VERSION=v4.12.26
-#ENV CARTODB_VERSION=v4.12.30
-ENV CARTODB_VERSION=master
-#ENV SQLAPI_VERSION=1.47.2
-ENV SQLAPI_VERSION=master
-#ENV CRANKSHAFT_VERSION=0.8.1
-ENV CRANKSHAFT_VERSION=master
-#ENV WINDSHAFT_VERSION=5.4.0
-ENV WINDSHAFT_VERSION=master
-#ENV DATASERVICES_VERSION=0.0.2
+
+ENV CRANKSHAFT_VERSION=0.8.1
+ENV CARTODB_POSTGRESQL_VERSION=0.3.0
 ENV DATASERVICES_VERSION=master
-#ENV DATAERVICESAPI_VERSION=0.30.5-server
-ENV DATAERVICESAPI_VERSION=master
-#ENV OBSERVATORY_VERSION=1.9.0
+ENV DATAERVICESAPI_VERSION=0.35.1-server
 ENV OBSERVATORY_VERSION=master
+ENV CARTODB_VERSION=v4.29.0
+ENV SQLAPI_VERSION=4.0.0
+#ENV WINDSHAFT_VERSION=5.4.0
+
+ENV CARTODB_VERSION=master
+#ENV CARTODB_POSTGRESQL_VERSION=master
+#ENV SQLAPI_VERSION=master
+#ENV CRANKSHAFT_VERSION=master
+ENV WINDSHAFT_VERSION=master
+#ENV DATASERVICES_VERSION=master
+#ENV DATAERVICESAPI_VERSION=master
+#ENV OBSERVATORY_VERSION=master
 
 RUN useradd -m -d /home/cartodb -s /bin/bash cartodb && \
   apt-get install -y -q \
@@ -239,7 +240,12 @@ RUN mkdir -p /cartodb/log && touch /cartodb/log/users_modifications && \
     chmod +x /cartodb/script/fill_geocoder.sh && \
     chmod +x /cartodb/script/sync_tables_trigger.sh
 
-EXPOSE 80
+ADD ./config/postgresql.conf /etc/postgresql/10/main/postgresql.conf
+ADD ./config/pg_hba.conf /etc/postgresql/10/main/pg_hba.conf
+
+RUN chown postgres /etc/postgresql/10/main/postgresql.conf /etc/postgresql/10/main/pg_hba.conf
+
+EXPOSE 80 5432
 
 ENV GDAL_DATA /usr/share/gdal/2.2
 

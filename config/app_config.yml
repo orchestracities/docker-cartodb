@@ -16,14 +16,14 @@ defaults: &defaults
   http_port:           # 3000 # nil|integer. HTTP port to use when building urls. Leave empty to use default (80)
   https_port:          # nil|integer. HTTPS port to use when building urls. Leave empty to use default (443)
   secret_token:       '71c2b25921b84a1cb21c71503ab8fb23'
-  account_host:       'cartodb.localhost:3000'
+  account_host:       'cartodb.localhost'
   # Here you can define other hosts different to account_host that also will be CORS enabled
   # cors_enabled_hosts:
   #   - example.com
   #   - foo.bar
   #   - carto.dev
   account_path:       '/account'
-  vizjson_cache_domains: ['.localhost']
+  vizjson_cache_domains: ['cartodb.localhost']
   data_library:
     username:         'common-data'
     path:             '/data-library'
@@ -59,7 +59,7 @@ defaults: &defaults
       endpoint:   '/api/v2/sql'
       port:       80
   api_requests_service_url: ''
-  developers_host:    'http://developers.cartodb.localhost:3000'
+  developers_host:    'http://developers.cartodb.localhost'
   google_analytics:
     primary:          ''
     embeds:           ''
